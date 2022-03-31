@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState} from 'react';
 import './App.css';
 
 function App() {
-  //manage state here:
+  //initialize state here:
   const [ brkLength, setBrkLength ] = useState(5);
   const [sessionLength, setSessionLength] = useState(25);
   const [timerState, setTimerState] = useState('paused');
@@ -16,13 +16,13 @@ function App() {
   const changeTimerType = useCallback(() => {
     if (timerType === 'session') {
       setTimerType('break');
-      setTimer(brkLength);
+      setTimer(brkLength * 60);
     } else {
       setTimerType('session');
-      setTimer(sessionLength);
+      setTimer(sessionLength * 60);
     }
   }, [timerType, brkLength, sessionLength]);
-  /*this function formats the time to display as mm:ss */
+  /*this function formats the timer(in seconds) to display as mm:ss */
   const timerFormat = (timer) => {
     let minutes = Math.floor(timer / 60);
     let seconds = timer % 60;
@@ -56,18 +56,18 @@ function App() {
   }, [timerState, timer, changeTimerType])
   /*When the timerState is 'paused' increments the sessionLength or brkLength 
   depending on which element is clicked by 1 minute. If the timerType is actively displayed 
-  the timer time will also increase by 1 min (60 seconds)*/
+  the timer time will be set to the new break/session length */
   function handleTimeIncrement(e) {
     if (timerState === 'paused') {
       if (e.currentTarget.id === 'break-increment') {
         setBrkLength(brkLength + 1);
         if (timerType === 'break') {
-          setTimer(timer + 60);
+          setTimer((brkLength + 1) * 60);
         }
       } else if (e.currentTarget.id === 'session-increment') {
         setSessionLength(sessionLength + 1)
         if (timerType === 'session') {
-          setTimer(timer + 60);
+          setTimer((sessionLength + 1) * 60);
         }
       } else {
         return;
@@ -78,18 +78,18 @@ function App() {
 }
   /*When the timerState is 'paused' decrements the sessionLength or brkLength 
   depending on which element is clicked by 1 minute. If the timerType is actively displayed 
-  the timer time will also decrease by 1 min (60 seconds)*/
+  the timer time will be set to the new break/session length */
   function handleTimeDecrement(e) {
     if (timerState === 'paused') {
       if (e.currentTarget.id === 'break-decrement' && brkLength > 1) {
         setBrkLength(brkLength - 1);
         if (timerType === 'break') {
-          setTimer(timer - 60);
+          setTimer((brkLength - 1) * 60);
         }
       } else if (e.currentTarget.id === 'session-decrement' && sessionLength > 1) {
         setSessionLength(sessionLength - 1)
         if (timerType === 'session') {
-          setTimer(timer - 60);
+          setTimer((sessionLength - 1) * 60);
         }
       } else {
         return;
