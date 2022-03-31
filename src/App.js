@@ -1,6 +1,6 @@
 import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { FaPlay, FaPause, FaRedo } from 'react-icons/fa';
-import { useEffect, useState} from 'react';
+import { useCallback, useEffect, useState} from 'react';
 import './App.css';
 
 function App() {
@@ -9,10 +9,11 @@ function App() {
   const [sessionLength, setSessionLength] = useState(25);
   const [timerState, setTimerState] = useState('paused');
   const [timerType, setTimerType ] = useState('session');
-  const [timer, setTimer] = useState(10);
+  const [timer, setTimer] = useState(1500);
 
-  // This is the timer logic
-  const changeTimerType = (() => {
+  /*a callback hook that is used in the useEffect hook to change the timer type
+   and set the timer to the length of the selected timerType (break or session).*/
+  const changeTimerType = useCallback(() => {
     if (timerType === 'session') {
       setTimerType('break');
       setTimer(brkLength);
@@ -21,7 +22,24 @@ function App() {
       setTimer(sessionLength);
     }
   }, [timerType, brkLength, sessionLength]);
+  /*this function formats the time to display as mm:ss */
+  const timerFormat = (timer) => {
+    let minutes = Math.floor(timer / 60);
+    let seconds = timer % 60;
+    let formattedTime = minutes + ':' + seconds;
+    if (minutes < 10) {
+    seconds > 10 ? formattedTime = '0' + minutes + ':' + seconds : formattedTime = '0' + minutes + ':0' + seconds;
+     return formattedTime;
+    } else {
+      seconds > 10 ? formattedTime = minutes + ':' + seconds : formattedTime = minutes + ':0' + seconds;
+      return formattedTime;
+    }
+  } 
+  /*Variable used to display the timer in mm:ss format. Calls the timerFormat function and passes 
+  in the timer state variable which is in seconds and formats it to mm:ss*/
+  const timerDisplay = timerFormat(timer);
 
+  // This is the timer logic
   useEffect(() => {
     let interval = null;
     if (timerState === 'running' && timer > 0) {
@@ -112,7 +130,7 @@ function App() {
 
       <div>
         <h2 id="timer-label">{timerType}</h2>
-        <h2 id="time-left">{timer}</h2>
+        <h2 id="time-left">{timerDisplay}</h2>
         <div id="start_stop" onClick={handleTimerState}>
           <FaPlay />
           <FaPause />
