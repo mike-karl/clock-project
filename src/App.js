@@ -10,7 +10,7 @@ function App() {
   const [sessionLength, setSessionLength] = useState(25);
   const [timerType, setTimerType] = useState('session');
   const [timerState, setTimerState] = useState('paused');
-  const [timer, setTimer] = useState(25 * 60);
+  const [timer, setTimer] = useState(5);
   const [startTime, setStartTime] = useState(null);
   const [totalTime, setTotalTime] = useState(null);
   // initialize useRef hook for audio beep
@@ -141,38 +141,39 @@ function App() {
 
   return (
     <div className="App">
-      <h1>25 + 5 Clock</h1>
-      <div>
-        <h2 id="break-label">Break Length</h2>
-        <div id="break-increment" onClick={handleTimeIncrement}>
+      <h1 className='title'>25 + 5 Clock</h1>
+      <div className='breakControls'>
+        <h2 className='break-item' id="break-label">Break Length</h2>
+        <div className='break-item button' id="break-increment" onClick={handleTimeIncrement}>
           <ImArrowUp /> 
         </div>
-        <div id="break-length">{brkLength}</div>
-        <div id="break-decrement" onClick={handleTimeDecrement}>
-          <ImArrowDown/>
-        </div>
-      </div>
-
-      <div>
-        <h2 id="session-label">Session Length</h2>
-        <div id="session-increment" onClick={handleTimeIncrement}>
-          <ImArrowUp /> 
-        </div>
-        <div id="session-length" >{sessionLength}</div>
-        <div id="session-decrement" onClick={handleTimeDecrement}>
+        <div className='break-item' id="break-length">{brkLength}</div>
+        <div className='break-item button' id="break-decrement" onClick={handleTimeDecrement}>
           <ImArrowDown />
         </div>
       </div>
 
-      <div>
-        <h2 id="timer-label">{timerType}</h2>
-        <h2 id="time-left">{timerFormat(timer)}</h2>
+      <div className='sessionControls'>
+        <h2 className='session-item' id="session-label">Session Length</h2>
+        <div className='session-item button' id="session-increment" onClick={handleTimeIncrement}>
+          <ImArrowUp /> 
+        </div>
+        <div className='session-item' id="session-length" >{sessionLength}</div>
+        <div className='session-item button' id="session-decrement" onClick={handleTimeDecrement}>
+          <ImArrowDown />
+        </div>
+      </div>
+      <div className='timerDisplay'>
+        <h2 className='timer-item' id="timer-label">{timerType}</h2>
+        <div className='timer-item' id='time-left-container'>
+          <h2  id="time-left" style={timer === 0 ? {color: "#FF6663"} : {color: "#BFD7EA"}}>{timerFormat(timer)}</h2>
+        </div>
         <audio id='beep' ref={beep} src={soundFile} type="audio/mpeg"></audio>
-        <div id="start_stop" onClick={handleTimerState}>
+        <div className='timer-item button' id="start_stop" onClick={handleTimerState}>
           <FaPlay />
           <FaPause />
         </div >
-        <div id="reset" onClick={handleReset}>
+        <div className='timer-item button' id="reset" onClick={handleReset}>
           <FaRedo />
         </div>
       </div>
