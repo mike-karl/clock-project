@@ -189,7 +189,7 @@ border-radius: 5px;
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 380px) {
   .App {
     width: 100%;
     margin:0;
@@ -199,6 +199,20 @@ border-radius: 5px;
   }
   #session-label {
     font-size: large;
+  }
+}
+@media screen and (max-width: 280px) {
+  .App {
+    width: 100%;
+    min-width: 280px;
+    min-height: 100%;
+    margin:0;
+  }
+  #break-label {
+    font-size: medium;
+  }
+  #session-label {
+    font-size: medium;
   }
 
 }

@@ -10,7 +10,7 @@ function App() {
   const [sessionLength, setSessionLength] = useState(25);
   const [timerType, setTimerType] = useState('session');
   const [timerState, setTimerState] = useState('paused');
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(25 * 60);
   const [startTime, setStartTime] = useState(null);
   const [totalTime, setTotalTime] = useState(null);
   // initialize useRef hook for audio beep
